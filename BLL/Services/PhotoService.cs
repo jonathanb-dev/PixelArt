@@ -1,6 +1,8 @@
 ﻿using DAL;
 using DL.Entities;
 using DL.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BLL.Services
@@ -24,6 +26,11 @@ namespace BLL.Services
         public async Task<Photo> GetPhoto(int id)
         {
             return await _context.Photos.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Photo>> GetPhotos()
+        {
+            return await _context.Photos.ToListAsync();
         }
     }
 }

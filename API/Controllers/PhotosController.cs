@@ -8,6 +8,7 @@ using DL.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -40,7 +41,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPhoto(int id)
+        public async Task<ActionResult<Photo>> GetPhoto(int id)
         {
             Photo photo = await _photoService.GetPhoto(id);
 
@@ -49,8 +50,18 @@ namespace API.Controllers
             return Ok(photoDto);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
+        {
+            IEnumerable<Photo> photos = await _photoService.GetPhotos();
+
+            IEnumerable<PhotoDto> photoDtos = _mapper.Map<IEnumerable<PhotoDto>>(photos);
+
+            return Ok(photoDtos);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> PostPhoto([FromForm]PostPhotoDto postPhotoDto)
+        public async Task<ActionResult<Photo>> PostPhoto([FromForm]PostPhotoDto postPhotoDto)
         {
             IFormFile file = postPhotoDto.File;
 

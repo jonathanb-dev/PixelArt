@@ -80,6 +80,7 @@ namespace API.Controllers
                 }
             }
 
+            postPhotoDto.Title = file.Name;
             postPhotoDto.Url = uploadResult.Url.ToString();
             postPhotoDto.PublicId = uploadResult.PublicId;
 
